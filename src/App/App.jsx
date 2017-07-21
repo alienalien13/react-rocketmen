@@ -1,27 +1,28 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import EditRemoveButtons from './EditRemoveButtons.jsx'
+//import EditRemoveButtons from './EditRemoveButtons.jsx'
+import NewRow from './NewRow.jsx'
 
 var rocketmenArr = [
 	{
 		id: '1',
 		name: 'Yura',
 		surname: 'Gagarin',
-		date: '11-11-1934',
+		date: '1934-11-11',
 		superpower: 'First'
 	},
 	{
 		id: '2',
 		name: 'Momo',
 		surname: 'OmOm',
-		date: '06-06-1906',
+		date: '1906-06-06',
 		superpower: 'Second'
 	},
 	{
 		id: '3',
 		name: 'Papa',
 		surname: 'ApAp',
-		date: '03-03-1903',
+		date: '1903-03-03',
 		superpower: 'Third'
 	}
 ]
@@ -92,13 +93,12 @@ export default class App extends Component{
 		this.setState({
 			rocketmenDisplay: newOne
 		})
-
-		console.log(this.state.rocketmenDisplay)
+		
 	}
 
 	render(){
 
-		const tableRowRocketmenData = this.state.rocketmenDisplay.map((item, index)=>{
+		/* const tableRowRocketmenData = this.state.rocketmenDisplay.map((item, index)=>{
 			return (
 				<tr key={item.id}>
 					<td>{item.name}</td>
@@ -107,6 +107,11 @@ export default class App extends Component{
 					<td>{item.superpower}</td>
 					<EditRemoveButtons data={item} />
 				</tr>
+			)
+		}) */
+		const tableRowRocketmenData = this.state.rocketmenDisplay.map((item, index)=>{
+			return (
+				<NewRow key={item.id} data={item}/>
 			)
 		})
 
