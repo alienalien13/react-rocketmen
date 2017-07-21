@@ -13,32 +13,36 @@ const common = () => {
 	return {
 		entry: PATHS.src + '/index.js',
 		output: {
-			filename: 'bundle.js',
-			path: PATHS.dist + "/js/"
+			filename: 'js/bundle.js',
+			path: PATHS.dist
 		},
 		module: {
 			rules: [
 				{
 					test: /\.pug$/i,
-					use: 'pug-loader',
+					loader: 'pug-loader',
                     options: {
                         pretty: true
                     }
+				},
+				{
+					test:/\.jsx?$/i,
+					loader: 'babel-loader'
 				}
 			]
 		},
-		plugin: [
+		plugins: [
 			new ExtractTextWebpackPlugin('./styles/style.css')
 		]
 	}
 }
 
 const dev = () => {
-	return merge(common,{
+	return merge(common(),{
 		module: {
 			rules: [
 				{
-					test: /\.scss$/i,
+					test: /\.sass$/i,
 					use: ExtractTextWebpackPlugin.extract({
 						fallback: 'style-loader',
 						use: [
@@ -62,7 +66,7 @@ const dev = () => {
 }
 
 const prod = () => {
-	return merge(common,{
+	return merge(common(),{
 		module: {
 			rules: [
 				{
@@ -94,8 +98,8 @@ const prod = () => {
 
 module.exports = (env) => {
 	if(env === 'development'){
-		return dev
+		return dev()
 	}else if(env === 'production'){
-		return prod
+		return prod()
 	}
 }

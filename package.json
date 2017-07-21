@@ -5,8 +5,8 @@
   "author": "Dmytro Ilhanaiev <ilhanaiev.dmytro@email.cz>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --env development",
-    "prod": "rmdist && webpack --env production",
+    "dev": "yarn rmdist && webpack --env development",
+    "prod": "yarn rmdist && webpack --env production",
     "serv": "webpack-dev-server --env development",
     "rmdist": "rimraf ./dist"
   },
