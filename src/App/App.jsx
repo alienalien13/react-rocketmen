@@ -44,6 +44,7 @@ export default class App extends Component{
 		this.handleOnchangeDate = this.handleOnchangeDate.bind(this);
 		this.handleOnchangeSuperpower = this.handleOnchangeSuperpower.bind(this);
 		this.handleClickAddRocketman = this.handleClickAddRocketman.bind(this);
+		this.remove = this.remove.bind(this);
 	}
 
 	handleOnchangeName(ev){
@@ -72,28 +73,31 @@ export default class App extends Component{
 
 	handleClickAddRocketman(){
 
-		/* rocketmenArr.push({
-			id: (rocketmenArr.length + 1),
-			name: this.state.inputName,
-			surname: this.state.inputSurname,
-			date: this.state.inputDate,
-			superpower: this.state.inputSuperpower
-		}) */
-
-		this.state.rocketmenDisplay.push({
+		rocketmenArr.push({
 			id: (rocketmenArr.length + 1),
 			name: this.state.inputName,
 			surname: this.state.inputSurname,
 			date: this.state.inputDate,
 			superpower: this.state.inputSuperpower
 		})
-
-		const newOne = this.state.rocketmenDisplay;
 
 		this.setState({
-			rocketmenDisplay: newOne
+			rocketmenDisplay: rocketmenArr
 		})
 		
+	}
+
+	remove(index){
+
+		//rocketmenArr.splice(index,1)
+
+		delete rocketmenArr[index]
+
+		this.setState({
+			rocketmenDisplay: rocketmenArr
+		})
+
+		console.log(index)
 	}
 
 	render(){
@@ -109,9 +113,12 @@ export default class App extends Component{
 				</tr>
 			)
 		}) */
-		const tableRowRocketmenData = this.state.rocketmenDisplay.map((item, index)=>{
+		
+		const tableRowRocketmenData = rocketmenArr.map((item, index)=>{
+			
 			return (
-				<NewRow key={item.id} data={item}/>
+				//<NewRow key={item.id} data={item} rmb={this.remove}/>
+				<NewRow key={item.id} data={item} rmRocketman={this.remove}/>
 			)
 		})
 
