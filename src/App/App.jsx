@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-//import EditRemoveButtons from './EditRemoveButtons.jsx'
 import NewRow from './NewRow.jsx'
 
 var rocketmenArr = [

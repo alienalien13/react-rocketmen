@@ -2,7 +2,8 @@ const path = require('path'),
 	merge = require('webpack-merge'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
 	ExtractTextWebpackPlugin = require('extract-text-webpack-plugin'),
-	UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+	UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin'),
+	webpack = require('webpack')
 
 const PATHS = {
 	src: path.join(__dirname, 'src'),
@@ -91,7 +92,9 @@ const prod = () => {
                     collapseInlineTagWhitespace: true,
                 }
 			}),
-            new webpack.optimize.UglifyJsPlugin({})
+            new UglifyjsWebpackPlugin({
+				comments: false
+			})
 		]
 	})
 }
