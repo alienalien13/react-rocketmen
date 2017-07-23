@@ -6,10 +6,7 @@ export default class NewRow extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			name: this.props.data.name,
-			surname: this.props.data.surname,
-			date: this.props.data.date,
-			superpower: this.props.data.superpower,
+			dataShow: props.data,
 			EditAndRemoveOnOff: 'buttons-on',
 			OkOnOff: 'buttons-off',
 		}
@@ -21,104 +18,109 @@ export default class NewRow extends Component{
 		this.handleChangeSurname = this.handleChangeSurname.bind(this)
 		this.handleChangeDate = this.handleChangeDate.bind(this)
 		this.handleChangeSuperpower = this.handleChangeSuperpower.bind(this)
+		this.handleSearch = this.handleSearch.bind(this)
 	}
 
-	handleClickEdit(){
+	handleClickEdit(ev){
+		var i= ev.target.className
+		console.log(this.state.dataShow[i])
+		console.log(ev.target.className)
+	}
+
+	handleClickRemove(ev){
+		delete this.props.data[ev.target.className]
 		this.setState({
-			name: <input type='text' defaultValue={this.state.name} onChange={this.handleChangeName}/>,
-			surname: <input type='text' defaultValue={this.state.surname} onChange={this.handleChangeSurname}/>,
-			date: <input type='date' defaultValue={this.state.date} onChange={this.handleChangeDate}/>,
-			superpower: <input type='text' defaultValue={this.state.superpower} onChange={this.handleChangeSuperpower}/>,
-			EditAndRemoveOnOff: 'buttons-off',
-			OkOnOff: 'buttons-on'
+			dataShow: this.props.data
 		})
-	}
-
-	handleClickRemove(){
-		this.props.rmRocketman(this.props.data.id - 1)
 	}
 
 	handleClickOk(){
 
-		var nameValue,
-			surnameValue,
-			dateValue,
-			superpowerValue;
-
-		for (let i in this.state){
-			console.log(this.state[i])
-			if (i !== 'EditAndRemoveOnOff' && i !== 'OkOnOff'){
-				if(typeof this.state[i] === 'object'){
-					
-					if(i === 'name'){
-						nameValue = this.state[i].props.defaultValue
-					}else if(i === 'surname'){
-						surnameValue = this.state[i].props.defaultValue
-					}else if(i === 'date'){
-						dateValue = this.state[i].props.defaultValue
-					}else if(i === 'superpower'){
-						superpowerValue = this.state[i].props.defaultValue
-					}
-
-
-				}else if(typeof this.state[i] === 'string'){
-					
-					if(i === 'name'){
-						nameValue = this.state[i]
-					}else if(i === 'surname'){
-						surnameValue = this.state[i]
-					}else if(i === 'date'){
-						dateValue = this.state[i]
-					}else if(i === 'superpower'){
-						superpowerValue = this.state[i]
-					}
-
-				}
-			}
-		}
-
-		this.setState({
-			name: nameValue,
-			surname: surnameValue,
-			date: dateValue,
-			superpower: superpowerValue,
-			EditAndRemoveOnOff: 'buttons-on',
-			OkOnOff: 'buttons-off',	
-		})
-
-		console.log(this.state)
-
 	}
 
 	handleChangeName(ev){
-		this.state.name = ev.target.value;
+		this.props.data[ev.target.className].name = ev.target.value
+		this.setState({
+			dataShow: this.props.data
+		})
 	}
 	handleChangeSurname(ev){
-		this.state.surname = ev.target.value;
+		this.props.data[ev.target.className].surname = ev.target.value
+		this.setState({
+			dataShow: this.props.data
+		})
 	}
 	handleChangeDate(ev){
-		this.state.date = ev.target.value;
+		this.props.data[ev.target.className].date = ev.target.value
+		this.setState({
+			dataShow: this.props.data
+		})
 	}
 	handleChangeSuperpower(ev){
-		this.state.superpower = ev.target.value;
+		this.props.data[ev.target.className].superpower = ev.target.value
+		this.setState({
+			dataShow: this.props.data
+		})
+	}
+	handleSearch(ev){
+		console.log(ev.target.value);
+		this.setState({
+			dataShow: this.props.data.filter((el)=>{
+				return el.name.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 ||
+				el.surname.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 ||
+				el.date.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 ||
+				el.superpower.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1
+			})
+		})
 	}
 
 	render(){
 		
-		return (
- 			<tr>
-				<td>{this.state.name}</td>
-				<td>{this.state.surname}</td>
-				<td>{this.state.date}</td>
-				<td>{this.state.superpower}</td>
-				<td className={this.state.EditAndRemoveOnOff}>
-					<input type='button' value='Edit' onClick={this.handleClickEdit}/>
-					<input type='button' value={this.props.data.id} onClick={this.handleClickRemove}/>
-				</td>
-				<td className={this.state.OkOnOff}>
-					<input type='button' value='Ok' onClick={this.handleClickOk}/>
-				</td>
-			</tr>
-		)
+		var rocketmanTemplate = this.state.dataShow.map((item, index)=>{
+			return (
+				<tr key={item.id}>
+					<td>{item.name}
+						<input className={index} type='text' defaultValue={item.name} onChange={this.handleChangeName}/>
+					</td>
+					<td>{item.surname}
+						<input className={index} type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/>
+					</td>
+					<td>{item.date}
+						<input className={index} type='date' defaultValue={item.date} onChange={this.handleChangeDate}/>
+					</td>
+					<td>{item.superpower}
+						<input className={index} type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/>
+					</td>
+					<td className={item.EditAndRemoveOnOff}>
+						<input className={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
+						<input className={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
+					</td>
+					<td className={this.state.OkOnOff}>
+						<input type='button' value='Ok' onClick={this.handleClickOk}/>
+					</td>
+				</tr>
+			)
+		})
+		return <section>
+
+			<input type='text' placeholder='Search' onChange={this.handleSearch}/>
+
+			<table>
+				<thead>
+					<tr>
+						<th onClick={this.handlerOnClickSortName}>Name</th>
+						<th onClick={this.handlerOnClickSortSurname}>Surname</th>
+						<th onClick={this.handlerOnClickSortDate}>Birthday</th>
+						<th onClick={this.handlerOnClickSortSuperpower}>Superpower</th>
+						<th></th>
+					</tr>
+				</thead>
+
+
+				<tbody>{rocketmanTemplate}</tbody>
+
+			</table>
+
+		</section>
 	}
 }
