@@ -6,9 +6,7 @@ export default class NewRow extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			dataShow: props.data,
-			EditAndRemoveOnOff: 'buttons-on',
-			OkOnOff: 'buttons-off',
+			dataShow: props.data
 		}
 
 		this.handleClickEdit = this.handleClickEdit.bind(this)
@@ -19,45 +17,67 @@ export default class NewRow extends Component{
 		this.handleChangeDate = this.handleChangeDate.bind(this)
 		this.handleChangeSuperpower = this.handleChangeSuperpower.bind(this)
 		this.handleSearch = this.handleSearch.bind(this)
+		this.handlerOnClickSortName = this.handlerOnClickSortName.bind(this)
 	}
 
 	handleClickEdit(ev){
-		var i= ev.target.className
-		console.log(this.state.dataShow[i])
-		console.log(ev.target.className)
+		var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
+			elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
+		for (let i in elemetsShow){
+			if (typeof(elemetsShow[i]) === 'object'){
+				elemetsShow[i].style.display = 'block'
+			}
+		}
+		for (let i in elementsHide){
+			if(typeof(elementsHide[i]) === 'object'){
+				elementsHide[i].style.display = 'none'
+			}
+		}
 	}
 
 	handleClickRemove(ev){
-		delete this.props.data[ev.target.className]
+		delete this.props.data[ev.target.id]
 		this.setState({
 			dataShow: this.props.data
 		})
 	}
 
-	handleClickOk(){
-
+	handleClickOk(ev){
+		var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
+			elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
+		for (let i in elemetsShow){
+			if (typeof(elemetsShow[i]) === 'object'){
+				elemetsShow[i].style.display = 'none'
+			}
+		}
+		for (let i in elementsHide){
+			if(typeof(elementsHide[i]) === 'object'){
+				elementsHide[i].style.display = 'block'
+			}
+		}
+		console.log(elementsHide)
 	}
 
 	handleChangeName(ev){
-		this.props.data[ev.target.className].name = ev.target.value
+		this.props.data[ev.target.id].name = ev.target.value
 		this.setState({
 			dataShow: this.props.data
 		})
 	}
 	handleChangeSurname(ev){
-		this.props.data[ev.target.className].surname = ev.target.value
+		this.props.data[ev.target.id].surname = ev.target.value
 		this.setState({
 			dataShow: this.props.data
 		})
 	}
 	handleChangeDate(ev){
-		this.props.data[ev.target.className].date = ev.target.value
+		this.props.data[ev.target.id].date = ev.target.value
 		this.setState({
 			dataShow: this.props.data
 		})
 	}
 	handleChangeSuperpower(ev){
-		this.props.data[ev.target.className].superpower = ev.target.value
+		this.props.data[ev.target.id].superpower = ev.target.value
 		this.setState({
 			dataShow: this.props.data
 		})
@@ -73,30 +93,50 @@ export default class NewRow extends Component{
 			})
 		})
 	}
+	handlerOnClickSortName(){
+		this.setState({
+			dataShow: this.state.dataShow.sort(function(el1, el2){
+				if (el1.name.toLowerCase() > el2.name.toLowerCase()) return 1;
+				if (el1.name.toLowerCase() < el2.name.toLowerCase()) return -1;
+			})
+		})
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			dataShow: nextProps.data
+		})
+	}
+
+ 	shouldComponentUpdate(nextProps, nextState){
+		return true
+	}
 
 	render(){
 		
 		var rocketmanTemplate = this.state.dataShow.map((item, index)=>{
+			var ipnutsTable = 'input row' + index,
+				editAndRemove = 'edit-remove row' + index;
 			return (
 				<tr key={item.id}>
 					<td>{item.name}
-						<input className={index} type='text' defaultValue={item.name} onChange={this.handleChangeName}/>
+						<input id={index} className={ipnutsTable} type='text' defaultValue={item.name} onChange={this.handleChangeName}/>
 					</td>
 					<td>{item.surname}
-						<input className={index} type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/>
+						<input id={index} className={ipnutsTable} type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/>
 					</td>
 					<td>{item.date}
-						<input className={index} type='date' defaultValue={item.date} onChange={this.handleChangeDate}/>
+						<input id={index} className={ipnutsTable} type='date' defaultValue={item.date} onChange={this.handleChangeDate}/>
 					</td>
 					<td>{item.superpower}
-						<input className={index} type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/>
+						<input id={index} className={ipnutsTable} type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/>
 					</td>
-					<td className={item.EditAndRemoveOnOff}>
-						<input className={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
-						<input className={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
+					<td className={editAndRemove}>
+						<input id={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
+						<input id={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
 					</td>
-					<td className={this.state.OkOnOff}>
-						<input type='button' value='Ok' onClick={this.handleClickOk}/>
+					<td className={ipnutsTable}>
+						<input id={index} type='button' value='Ok' onClick={this.handleClickOk}/>
 					</td>
 				</tr>
 			)
@@ -106,6 +146,7 @@ export default class NewRow extends Component{
 			<input type='text' placeholder='Search' onChange={this.handleSearch}/>
 
 			<table>
+
 				<thead>
 					<tr>
 						<th onClick={this.handlerOnClickSortName}>Name</th>
@@ -115,7 +156,6 @@ export default class NewRow extends Component{
 						<th></th>
 					</tr>
 				</thead>
-
 
 				<tbody>{rocketmanTemplate}</tbody>
 

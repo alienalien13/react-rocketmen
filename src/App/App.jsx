@@ -86,10 +86,13 @@ export default class App extends Component{
 		console.log(rocketmenArr)
 
 		this.setState({
-			rocketmenDisplay: rocketmenArr
+			rocketmenDisplay: rocketmenArr.sort(function(el1, el2){
+				if (el1.id > el2.id) return 1;
+				if (el1.id < el2.id) return -1;
+			})
 		})
 	}
-	
+
 	render(){
 
 		return (
