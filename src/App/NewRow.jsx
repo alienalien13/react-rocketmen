@@ -104,6 +104,7 @@ export default class NewRow extends Component{
 	}
 
 	render(){
+		
 		return (
  			<tr>
 				<td>{this.state.name}</td>

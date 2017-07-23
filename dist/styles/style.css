@@ -1,1 +1,5 @@
-.buttons-on{display:block}.buttons-off{display:none}
+.buttons-on {
+  display: block; }
+
+.buttons-off {
+  display: none; }
