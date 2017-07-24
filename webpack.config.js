@@ -20,6 +20,28 @@ const common = () => {
 		module: {
 			rules: [
 				{
+				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+				use: [
+					{
+						loader: "url-loader?limit=10000&mimetype=application/font-woff",
+						options:{
+							name: './fonts/[name].[ext]'
+						}
+					}
+				]
+				},
+				{
+					test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+					use: [
+						{
+							loader: "file-loader",
+							options:{
+								name: './fonts/[name].[ext]'
+							}
+						}
+					]
+				},
+				{
 					test: /\.pug$/i,
 					loader: 'pug-loader',
                     options: {
@@ -29,6 +51,15 @@ const common = () => {
 				{
 					test:/\.jsx?$/i,
 					loader: 'babel-loader'
+				},
+				{
+					test: /\.css$/i,
+					use: ExtractTextWebpackPlugin.extract({
+						fallback: 'style-loader',
+						use: [
+							'css-loader'
+						]
+					})
 				}
 			]
 		},

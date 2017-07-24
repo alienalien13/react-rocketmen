@@ -36,10 +36,7 @@ export default class App extends Component{
 			inputSurname: '',
 			inputDate: '',
 			inputSuperpower: '',
-			switchName: 0,
-			switchSurname: 0,
-			switchDate: 0,
-			switchSuperpower: 0
+			restartSort: 0
 		}
 
 		this.handleOnchangeName = this.handleOnchangeName.bind(this);
@@ -89,8 +86,10 @@ export default class App extends Component{
 			rocketmenDisplay: rocketmenArr.sort(function(el1, el2){
 				if (el1.id > el2.id) return 1;
 				if (el1.id < el2.id) return -1;
-			})
+			}),
+			restartSort: 0
 		})
+
 	}
 
 	render(){
@@ -106,7 +105,7 @@ export default class App extends Component{
 					<input type='button' value='Add Rocketman' className='input-form input-name input-ok' onClick={this.handleClickAddRocketman}/>
 				</form>
 
-				<NewRow data={rocketmenArr}/>
+				<NewRow data={rocketmenArr} restart={this.state.restartSort}/>
 				
 			</section>
 		)

@@ -6,18 +6,29 @@ export default class NewRow extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			dataShow: props.data
+			dataShow: props.data,
+			switchSortName: props.restart,
+			switchSortSurname: props.restart,
+			switchSortDate: props.restart,
+			switchSortSuperpower: props.restart
 		}
 
 		this.handleClickEdit = this.handleClickEdit.bind(this)
 		this.handleClickRemove = this.handleClickRemove.bind(this)
 		this.handleClickOk = this.handleClickOk.bind(this)
+
 		this.handleChangeName = this.handleChangeName.bind(this)
 		this.handleChangeSurname = this.handleChangeSurname.bind(this)
 		this.handleChangeDate = this.handleChangeDate.bind(this)
 		this.handleChangeSuperpower = this.handleChangeSuperpower.bind(this)
+
 		this.handleSearch = this.handleSearch.bind(this)
+
 		this.handlerOnClickSortName = this.handlerOnClickSortName.bind(this)
+		this.handlerOnClickSortSurname = this.handlerOnClickSortSurname.bind(this)
+		this.handlerOnClickSortDate = this.handlerOnClickSortDate.bind(this)
+		this.handlerOnClickSortSuperpower = this.handlerOnClickSortSuperpower.bind(this)
+		this.auxiliartMethod = this.auxiliartMethod.bind(this)
 	}
 
 	handleClickEdit(ev){
@@ -34,14 +45,12 @@ export default class NewRow extends Component{
 			}
 		}
 	}
-
 	handleClickRemove(ev){
 		delete this.props.data[ev.target.id]
 		this.setState({
 			dataShow: this.props.data
 		})
 	}
-
 	handleClickOk(ev){
 		var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
 			elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
@@ -55,9 +64,8 @@ export default class NewRow extends Component{
 				elementsHide[i].style.display = 'block'
 			}
 		}
-		console.log(elementsHide)
-	}
 
+	}
 	handleChangeName(ev){
 		this.props.data[ev.target.id].name = ev.target.value
 		this.setState({
@@ -93,18 +101,130 @@ export default class NewRow extends Component{
 			})
 		})
 	}
-	handlerOnClickSortName(){
+
+	/* === ===  === === === ===  Sort === ===  === ===  === === */
+	auxiliartMethod(){
 		this.setState({
 			dataShow: this.state.dataShow.sort(function(el1, el2){
-				if (el1.name.toLowerCase() > el2.name.toLowerCase()) return 1;
-				if (el1.name.toLowerCase() < el2.name.toLowerCase()) return -1;
-			})
+				if (el1.id > el2.id) return 1;
+				if (el1.id < el2.id) return -1;
+			}),
+			switchSortName: 0,
+			switchSortSurname: 0,
+			switchSortDate: 0,
+			switchSortSuperpower: 0
 		})
 	}
+	
+	handlerOnClickSortName(){
+		this.state.switchSortName++
 
+		switch (this.state.switchSortName){
+			case 1:
+			this.setState({
+				dataShow: this.state.dataShow.sort(function(el1, el2){
+					if (el1.name.toLowerCase() > el2.name.toLowerCase()) return 1;
+					if (el1.name.toLowerCase() < el2.name.toLowerCase()) return -1;
+				})
+			});
+			break;
+			case 2:
+			this.setState({
+				dataShow: this.state.dataShow.sort(function(el1, el2){
+					if (el1.name.toLowerCase() > el2.name.toLowerCase()) return -1;
+					if (el1.name.toLowerCase() < el2.name.toLowerCase()) return 1;
+				})
+			});
+			break;
+			case 3:
+			this.auxiliartMethod();
+			break;
+		}
+	}
+	handlerOnClickSortSurname(){
+		this.state.switchSortSurname++
+		console.log(this.state.switchSortSurname)
+		switch (this.state.switchSortSurname){
+			case 1:
+			this.setState({
+				dataShow: this.state.dataShow.sort(function(el1, el2){
+					if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return 1;
+					if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return -1;
+				})
+			});
+			break;
+			case 2:
+			this.setState({
+				dataShow: this.state.dataShow.sort(function(el1, el2){
+					if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return -1;
+					if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return 1;
+				})
+			});
+			break;
+			case 3:
+			this.auxiliartMethod();
+			break;
+		}
+	}
+	handlerOnClickSortDate(ev){
+		this.state.switchSortDate++
+
+		switch (this.state.switchSortDate){
+			case 1: 
+				ev.target.className = 'fa fa-angle-double-down'
+				this.setState({
+					dataShow: this.state.dataShow.sort(function(el1, el2){
+						if (el1.date > el2.date) return 1;
+						if (el1.date < el2.date) return -1;
+					})
+				});
+				break;
+			case 2: 
+				ev.target.className = 'fa fa-angle-double-up'
+				this.setState({
+					dataShow: this.state.dataShow.sort(function(el1, el2){
+						if (el1.date > el2.date) return -1;
+						if (el1.date < el2.date) return 1;
+					})
+				});
+				break;
+			case 3:
+				ev.target.className = ''
+				this.auxiliartMethod();
+				break;
+		}
+	}
+	handlerOnClickSortSuperpower(){
+		this.state.switchSortSuperpower++
+		console.log(this.state.switchSortSuperpower)
+		switch (this.state.switchSortSuperpower){
+			case 1: this.setState({
+				dataShow: this.state.dataShow.sort(function(el1, el2){
+					if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return 1;
+					if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return -1;
+				})
+			});
+			break;
+			case 2: this.setState({
+				dataShow: this.state.dataShow.sort(function(el1, el2){
+					if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return -1;
+					if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return 1;
+				})
+			});
+			break;
+			case 3: this.auxiliartMethod();
+			break;
+		}
+	}
+
+	/*  === ===  === ===  === === React necessary methods  === ===  === ===  === ===  */
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			dataShow: nextProps.data
+			dataShow: nextProps.data,
+			switchSortName: nextProps.restart,
+			switchSortSurname: nextProps.restart,
+			switchSortDate: nextProps.restart,
+			switchSortSuperpower: nextProps.restart
 		})
 	}
 
@@ -112,6 +232,7 @@ export default class NewRow extends Component{
 		return true
 	}
 
+	/*  === ===  === ===  === === Render  === ===  === ===  === ===  === ===  */
 	render(){
 		
 		var rocketmanTemplate = this.state.dataShow.map((item, index)=>{
@@ -119,25 +240,37 @@ export default class NewRow extends Component{
 				editAndRemove = 'edit-remove row' + index;
 			return (
 				<tr key={item.id}>
-					<td>{item.name}
-						<input id={index} className={ipnutsTable} type='text' defaultValue={item.name} onChange={this.handleChangeName}/>
+
+					<td>
+						<div className={editAndRemove}>{item.name}</div>
+						<div className={ipnutsTable}><input id={index} type='text' defaultValue={item.name} onChange={this.handleChangeName}/></div>
 					</td>
-					<td>{item.surname}
-						<input id={index} className={ipnutsTable} type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/>
+
+					<td>
+						<div className={editAndRemove}>{item.surname}</div>
+						<div className={ipnutsTable}><input id={index}  type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/></div>
 					</td>
-					<td>{item.date}
-						<input id={index} className={ipnutsTable} type='date' defaultValue={item.date} onChange={this.handleChangeDate}/>
+
+					<td>
+						<div className={editAndRemove}>{item.date}</div>
+						<div className={ipnutsTable}><input id={index}  type='date' defaultValue={item.date} onChange={this.handleChangeDate}/></div>
 					</td>
-					<td>{item.superpower}
-						<input id={index} className={ipnutsTable} type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/>
+
+					<td>
+						<div className={editAndRemove}>{item.superpower}</div>
+						<div className={ipnutsTable}><input id={index}  type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/></div>
 					</td>
-					<td className={editAndRemove}>
-						<input id={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
-						<input id={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
+
+					<td>
+						<div className={editAndRemove}>
+							<input id={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
+							<input id={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
+						</div>
+						<div className={ipnutsTable}>
+							<input id={index} type='button' value='Ok' onClick={this.handleClickOk}/>
+						</div>
 					</td>
-					<td className={ipnutsTable}>
-						<input id={index} type='button' value='Ok' onClick={this.handleClickOk}/>
-					</td>
+
 				</tr>
 			)
 		})
