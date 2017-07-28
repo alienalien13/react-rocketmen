@@ -353,7 +353,7 @@ export default class NewRow extends Component{
 
 					<td>
 						<div className={editAndRemove}>{item.superpower}</div>
-						<div className={ipnutsTable}><input id={index}  type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/></div>
+						<div className={ipnutsTable}><textarea id={index}  type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/></div>
 					</td>
 
 					<td>
