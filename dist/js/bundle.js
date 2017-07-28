@@ -9791,6 +9791,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_App_jsx__ = __webpack_require__(184);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__styles_style_sass__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__styles_style_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__styles_style_sass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__styles_fa_css_font_awesome_min_css__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__styles_fa_css_font_awesome_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__styles_fa_css_font_awesome_min_css__);
+
 
 
 
@@ -22299,23 +22302,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var rocketmenArr = [{
-	id: '1',
-	name: 'Yura',
+	id: 0,
+	name: 'Yuri',
 	surname: 'Gagarin',
-	date: '1934-11-11',
-	superpower: 'First'
+	date: '1934-03-09',
+	superpower: 'He was the first human to journey into outer space'
 }, {
-	id: '2',
-	name: 'Momo',
-	surname: 'OmOm',
-	date: '1906-06-06',
-	superpower: 'Second'
+	id: 1,
+	name: 'Alan',
+	surname: 'Shepard',
+	date: '1923-11-18',
+	superpower: 'He became the second person, and the first American, to travel into space, and the first person to manually control the orientation of his spacecraft'
 }, {
-	id: '3',
-	name: 'Papa',
-	surname: 'ApAp',
-	date: '1903-03-03',
-	superpower: 'Third'
+	id: 2,
+	name: 'Neil',
+	surname: 'Armstrong',
+	date: '1930-08-05',
+	superpower: "Armstrong's second and last spaceflight was as commander of Apollo 11, the first manned Moon landing mission in July 1969"
+}, {
+	id: 3,
+	name: 'Vladimír',
+	surname: 'Remek',
+	date: '1948-09-26',
+	superpower: 'Remek is considered to be the first astronaut from the European Union'
 }];
 
 var App = function (_Component) {
@@ -22332,10 +22341,7 @@ var App = function (_Component) {
 			inputSurname: '',
 			inputDate: '',
 			inputSuperpower: '',
-			switchName: 0,
-			switchSurname: 0,
-			switchDate: 0,
-			switchSuperpower: 0
+			restartSort: 0
 		};
 
 		_this.handleOnchangeName = _this.handleOnchangeName.bind(_this);
@@ -22343,12 +22349,6 @@ var App = function (_Component) {
 		_this.handleOnchangeDate = _this.handleOnchangeDate.bind(_this);
 		_this.handleOnchangeSuperpower = _this.handleOnchangeSuperpower.bind(_this);
 		_this.handleClickAddRocketman = _this.handleClickAddRocketman.bind(_this);
-		_this.remove = _this.remove.bind(_this);
-		_this.handlerOnClickSortName = _this.handlerOnClickSortName.bind(_this);
-		_this.handlerOnClickSortSurname = _this.handlerOnClickSortSurname.bind(_this);
-		_this.handlerOnClickSortDate = _this.handlerOnClickSortDate.bind(_this);
-		_this.handlerOnClickSortSuperpower = _this.handlerOnClickSortSuperpower.bind(_this);
-		_this.handlerOnChangeSearch = _this.handlerOnChangeSearch.bind(_this);
 		return _this;
 	}
 
@@ -22384,118 +22384,46 @@ var App = function (_Component) {
 		key: 'handleClickAddRocketman',
 		value: function handleClickAddRocketman() {
 
-			rocketmenArr.push({
-				id: rocketmenArr.length + 1,
-				name: this.state.inputName,
-				surname: this.state.inputSurname,
-				date: this.state.inputDate,
-				superpower: this.state.inputSuperpower
-			});
+			if (this.state.inputName !== '' && this.state.inputSurname !== '' && this.state.inputDate !== '' && this.state.inputSuperpower !== '') {
 
-			this.setState({
-				rocketmenDisplay: rocketmenArr
-			});
+				rocketmenArr.push({
+					id: rocketmenArr.length,
+					name: this.state.inputName,
+					surname: this.state.inputSurname,
+					date: this.state.inputDate,
+					superpower: this.state.inputSuperpower
+				});
+
+				this.setState({
+					rocketmenDisplay: rocketmenArr.sort(function (el1, el2) {
+						if (el1.id > el2.id) return 1;
+						if (el1.id < el2.id) return -1;
+					}),
+					restartSort: 0,
+					inputName: '',
+					inputSurname: '',
+					inputDate: '',
+					inputSuperpower: ''
+				});
+			}
 		}
-	}, {
-		key: 'remove',
-		value: function remove(index) {
-
-			//rocketmenArr.splice(index,1)
-
-			delete rocketmenArr[index];
-
-			this.setState({
-				rocketmenDisplay: rocketmenArr
-			});
-
-			console.log(index);
-		}
-	}, {
-		key: 'handlerOnClickSortName',
-		value: function handlerOnClickSortName() {
-			this.state.switchName++;
-			console.log(this.state.switchName);
-		}
-	}, {
-		key: 'handlerOnClickSortSurname',
-		value: function handlerOnClickSortSurname() {}
-	}, {
-		key: 'handlerOnClickSortDate',
-		value: function handlerOnClickSortDate() {}
-	}, {
-		key: 'handlerOnClickSortSuperpower',
-		value: function handlerOnClickSortSuperpower() {}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
-
-			/* const tableRowRocketmenData = this.state.rocketmenDisplay.map((item, index)=>{
-   	return (
-   		<tr key={item.id}>
-   			<td>{item.name}</td>
-   			<td>{item.surname}</td>
-   			<td>{item.date}</td>
-   			<td>{item.superpower}</td>
-   			<EditRemoveButtons data={item} />
-   		</tr>
-   	)
-   }) */
-
-			var tableRowRocketmenData = rocketmenArr.map(function (item, index) {
-				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__NewRow_jsx__["a" /* default */], { key: item.id, data: item, rmRocketman: _this2.remove });
-			});
 
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'section',
-				null,
+				{ className: 'row justify-content-center' },
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'form',
-					null,
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'input-form input-name input-ok', onChange: this.handleOnchangeName }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'input-form input-surname input-ok', onChange: this.handleOnchangeSurname }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'date', className: 'input-form input-date input-ok', onChange: this.handleOnchangeDate }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'input-form input-superpower input-ok', onChange: this.handleOnchangeSuperpower }),
+					{ className: 'col-md-3' },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', placeholder: 'Name', value: this.state.inputName, className: 'input-form input-name input-ok', onChange: this.handleOnchangeName }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', placeholder: 'Surname', value: this.state.inputSurname, className: 'input-form input-surname input-ok', onChange: this.handleOnchangeSurname }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'date', placeholder: 'Birthday', value: this.state.inputDate, className: 'input-form input-date input-ok', onChange: this.handleOnchangeDate }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', placeholder: 'Superpower', value: this.state.inputSuperpower, className: 'input-form input-superpower input-ok', onChange: this.handleOnchangeSuperpower }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'button', value: 'Add Rocketman', className: 'input-form input-name input-ok', onClick: this.handleClickAddRocketman })
 				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'table',
-					null,
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'thead',
-						null,
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							'tr',
-							null,
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								{ onClick: this.handlerOnClickSortName },
-								'Name'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								{ onClick: this.handlerOnClickSortSurname },
-								'Surname'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								{ onClick: this.handlerOnClickSortDate },
-								'Birthday'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								'th',
-								{ onClick: this.handlerOnClickSortSuperpower },
-								'Superpower'
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', null)
-						)
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'tbody',
-						{ id: 'tableContent' },
-						tableRowRocketmenData
-					)
-				)
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__NewRow_jsx__["a" /* default */], { data: rocketmenArr, restart: this.state.restartSort })
 			);
 		}
 	}]);
@@ -22536,143 +22464,454 @@ var NewRow = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (NewRow.__proto__ || Object.getPrototypeOf(NewRow)).call(this, props));
 
 		_this.state = {
-			name: _this.props.data.name,
-			surname: _this.props.data.surname,
-			date: _this.props.data.date,
-			superpower: _this.props.data.superpower,
-			EditAndRemoveOnOff: 'buttons-on',
-			OkOnOff: 'buttons-off'
+			dataShow: props.data,
+			switchSortName: props.restart,
+			switchSortSurname: props.restart,
+			switchSortDate: props.restart,
+			switchSortSuperpower: props.restart
 		};
 
 		_this.handleClickEdit = _this.handleClickEdit.bind(_this);
 		_this.handleClickRemove = _this.handleClickRemove.bind(_this);
 		_this.handleClickOk = _this.handleClickOk.bind(_this);
+
 		_this.handleChangeName = _this.handleChangeName.bind(_this);
 		_this.handleChangeSurname = _this.handleChangeSurname.bind(_this);
 		_this.handleChangeDate = _this.handleChangeDate.bind(_this);
 		_this.handleChangeSuperpower = _this.handleChangeSuperpower.bind(_this);
+
+		_this.handleSearch = _this.handleSearch.bind(_this);
+
+		_this.handlerOnClickSortName = _this.handlerOnClickSortName.bind(_this);
+		_this.handlerOnClickSortSurname = _this.handlerOnClickSortSurname.bind(_this);
+		_this.handlerOnClickSortDate = _this.handlerOnClickSortDate.bind(_this);
+		_this.handlerOnClickSortSuperpower = _this.handlerOnClickSortSuperpower.bind(_this);
+		_this.auxiliartMethod = _this.auxiliartMethod.bind(_this);
 		return _this;
 	}
 
+	/* ===  ===  ===  ===  ===  === Click handlers ===  ===  ===  ===  ===  === */
+
 	_createClass(NewRow, [{
 		key: 'handleClickEdit',
-		value: function handleClickEdit() {
-			this.setState({
-				name: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', defaultValue: this.state.name, onChange: this.handleChangeName }),
-				surname: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', defaultValue: this.state.surname, onChange: this.handleChangeSurname }),
-				date: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'date', defaultValue: this.state.date, onChange: this.handleChangeDate }),
-				superpower: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', defaultValue: this.state.superpower, onChange: this.handleChangeSuperpower }),
-				EditAndRemoveOnOff: 'buttons-off',
-				OkOnOff: 'buttons-on'
-			});
+		value: function handleClickEdit(ev) {
+			var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
+			    elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
+			for (var i in elemetsShow) {
+				if (_typeof(elemetsShow[i]) === 'object') {
+					elemetsShow[i].style.display = 'block';
+				}
+			}
+			for (var _i in elementsHide) {
+				if (_typeof(elementsHide[_i]) === 'object') {
+					elementsHide[_i].style.display = 'none';
+				}
+			}
 		}
 	}, {
 		key: 'handleClickRemove',
-		value: function handleClickRemove() {
-			this.props.rmRocketman(this.props.data.id - 1);
+		value: function handleClickRemove(ev) {
+			delete this.props.data[ev.target.id];
+			this.setState({
+				dataShow: this.props.data
+			});
 		}
 	}, {
 		key: 'handleClickOk',
-		value: function handleClickOk() {
-
-			var nameValue, surnameValue, dateValue, superpowerValue;
-
-			for (var i in this.state) {
-				console.log(this.state[i]);
-				if (i !== 'EditAndRemoveOnOff' && i !== 'OkOnOff') {
-					if (_typeof(this.state[i]) === 'object') {
-
-						if (i === 'name') {
-							nameValue = this.state[i].props.defaultValue;
-						} else if (i === 'surname') {
-							surnameValue = this.state[i].props.defaultValue;
-						} else if (i === 'date') {
-							dateValue = this.state[i].props.defaultValue;
-						} else if (i === 'superpower') {
-							superpowerValue = this.state[i].props.defaultValue;
-						}
-					} else if (typeof this.state[i] === 'string') {
-
-						if (i === 'name') {
-							nameValue = this.state[i];
-						} else if (i === 'surname') {
-							surnameValue = this.state[i];
-						} else if (i === 'date') {
-							dateValue = this.state[i];
-						} else if (i === 'superpower') {
-							superpowerValue = this.state[i];
-						}
-					}
+		value: function handleClickOk(ev) {
+			var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
+			    elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
+			for (var i in elemetsShow) {
+				if (_typeof(elemetsShow[i]) === 'object') {
+					elemetsShow[i].style.display = 'none';
 				}
 			}
-
-			this.setState({
-				name: nameValue,
-				surname: surnameValue,
-				date: dateValue,
-				superpower: superpowerValue,
-				EditAndRemoveOnOff: 'buttons-on',
-				OkOnOff: 'buttons-off'
-			});
-
-			console.log(this.state);
+			for (var _i2 in elementsHide) {
+				if (_typeof(elementsHide[_i2]) === 'object') {
+					elementsHide[_i2].style.display = 'block';
+				}
+			}
 		}
+
+		/* ===  ===  ===  ===  ===  === Changing datas ===  ===  ===  ===  ===  === */
+
 	}, {
 		key: 'handleChangeName',
 		value: function handleChangeName(ev) {
-			this.state.name = ev.target.value;
+			this.props.data[ev.target.id].name = ev.target.value;
+			this.setState({
+				dataShow: this.props.data
+			});
 		}
 	}, {
 		key: 'handleChangeSurname',
 		value: function handleChangeSurname(ev) {
-			this.state.surname = ev.target.value;
+			this.props.data[ev.target.id].surname = ev.target.value;
+			this.setState({
+				dataShow: this.props.data
+			});
 		}
 	}, {
 		key: 'handleChangeDate',
 		value: function handleChangeDate(ev) {
-			this.state.date = ev.target.value;
+			this.props.data[ev.target.id].date = ev.target.value;
+			this.setState({
+				dataShow: this.props.data
+			});
 		}
 	}, {
 		key: 'handleChangeSuperpower',
 		value: function handleChangeSuperpower(ev) {
-			this.state.superpower = ev.target.value;
+			this.props.data[ev.target.id].superpower = ev.target.value;
+			this.setState({
+				dataShow: this.props.data
+			});
 		}
+
+		/* ===  ===  === ===  ===  ===  Search ===  ===  ===  ===  ===  === */
+
+	}, {
+		key: 'handleSearch',
+		value: function handleSearch(ev) {
+
+			this.setState({
+				dataShow: this.props.data.filter(function (el) {
+					return el.name.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 || el.surname.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 || el.date.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 || el.superpower.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1;
+				})
+			});
+		}
+
+		/* === ===  === === === ===  Sort === ===  === ===  === === */
+
+	}, {
+		key: 'auxiliartMethod',
+		value: function auxiliartMethod() {
+			this.setState({
+				dataShow: this.state.dataShow.sort(function (el1, el2) {
+					if (el1.id > el2.id) return 1;
+					if (el1.id < el2.id) return -1;
+				}),
+				switchSortName: 0,
+				switchSortSurname: 0,
+				switchSortDate: 0,
+				switchSortSuperpower: 0,
+				n: '',
+				s: '',
+				d: '',
+				sp: ''
+			});
+		}
+	}, {
+		key: 'handlerOnClickSortName',
+		value: function handlerOnClickSortName(ev) {
+			this.state.switchSortName++;
+
+			switch (this.state.switchSortName) {
+				case 1:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.name.toLowerCase() > el2.name.toLowerCase()) return 1;
+							if (el1.name.toLowerCase() < el2.name.toLowerCase()) return -1;
+						}),
+						n: 'fa fa-angle-double-down',
+						s: '',
+						d: '',
+						sp: '',
+						switchSortSurname: 0,
+						switchSortDate: 0,
+						switchSortSuperpower: 0
+					});
+					break;
+				case 2:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.name.toLowerCase() > el2.name.toLowerCase()) return -1;
+							if (el1.name.toLowerCase() < el2.name.toLowerCase()) return 1;
+						}),
+						n: 'fa fa-angle-double-up',
+						s: '',
+						d: '',
+						sp: '',
+						switchSortSurname: 0,
+						switchSortDate: 0,
+						switchSortSuperpower: 0
+					});
+					break;
+				case 3:
+					this.auxiliartMethod();
+					break;
+			}
+		}
+	}, {
+		key: 'handlerOnClickSortSurname',
+		value: function handlerOnClickSortSurname(ev) {
+			this.state.switchSortSurname++;
+
+			switch (this.state.switchSortSurname) {
+				case 1:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return 1;
+							if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return -1;
+						}),
+						n: '',
+						s: 'fa fa-angle-double-down',
+						d: '',
+						sp: '',
+						switchSortName: 0,
+						switchSortDate: 0,
+						switchSortSuperpower: 0
+					});
+					break;
+				case 2:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return -1;
+							if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return 1;
+						}),
+						n: '',
+						s: 'fa fa-angle-double-up',
+						d: '',
+						sp: '',
+						switchSortName: 0,
+						switchSortDate: 0,
+						switchSortSuperpower: 0
+					});
+					break;
+				case 3:
+					this.auxiliartMethod();
+					break;
+			}
+		}
+	}, {
+		key: 'handlerOnClickSortDate',
+		value: function handlerOnClickSortDate(ev) {
+			this.state.switchSortDate++;
+
+			switch (this.state.switchSortDate) {
+				case 1:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.date > el2.date) return 1;
+							if (el1.date < el2.date) return -1;
+						}),
+						n: '',
+						s: '',
+						d: 'fa fa-angle-double-down',
+						sp: '',
+						switchSortName: 0,
+						switchSortSurname: 0,
+						switchSortSuperpower: 0
+					});
+					break;
+				case 2:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.date > el2.date) return -1;
+							if (el1.date < el2.date) return 1;
+						}),
+						n: '',
+						s: '',
+						d: 'fa fa-angle-double-up',
+						sp: '',
+						switchSortName: 0,
+						switchSortSurname: 0,
+						switchSortSuperpower: 0
+					});
+					break;
+				case 3:
+					this.auxiliartMethod();
+					break;
+			}
+		}
+	}, {
+		key: 'handlerOnClickSortSuperpower',
+		value: function handlerOnClickSortSuperpower(ev) {
+			this.state.switchSortSuperpower++;
+
+			switch (this.state.switchSortSuperpower) {
+				case 1:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return 1;
+							if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return -1;
+						}),
+						n: '',
+						s: '',
+						d: '',
+						sp: 'fa fa-angle-double-down',
+						switchSortName: 0,
+						switchSortSurname: 0,
+						switchSortDate: 0
+					});
+					break;
+				case 2:
+					this.setState({
+						dataShow: this.state.dataShow.sort(function (el1, el2) {
+							if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return -1;
+							if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return 1;
+						}),
+						n: '',
+						s: '',
+						d: '',
+						sp: 'fa fa-angle-double-up',
+						switchSortName: 0,
+						switchSortSurname: 0,
+						switchSortDate: 0
+					});
+					break;
+				case 3:
+					this.auxiliartMethod();
+					break;
+			}
+		}
+
+		/*  === ===  === ===  === === React necessary methods  === ===  === ===  === ===  */
+
+	}, {
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			this.setState({
+				dataShow: nextProps.data,
+				switchSortName: nextProps.restart,
+				switchSortSurname: nextProps.restart,
+				switchSortDate: nextProps.restart,
+				switchSortSuperpower: nextProps.restart
+			});
+		}
+	}, {
+		key: 'shouldComponentUpdate',
+		value: function shouldComponentUpdate(nextProps, nextState) {
+			return true;
+		}
+
+		/*  === ===  === ===  === === Render  === ===  === ===  === ===  === ===  */
+
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
+			var rocketmanTemplate = this.state.dataShow.map(function (item, index) {
+				var ipnutsTable = 'input row' + index,
+				    editAndRemove = 'edit-remove row' + index;
+				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'tr',
+					{ key: item.id },
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'td',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: editAndRemove },
+							item.name
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: ipnutsTable },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'text', defaultValue: item.name, onChange: _this2.handleChangeName })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'td',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: editAndRemove },
+							item.surname
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: ipnutsTable },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'text', defaultValue: item.surname, onChange: _this2.handleChangeSurname })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'td',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: editAndRemove },
+							item.date
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: ipnutsTable },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'date', defaultValue: item.date, onChange: _this2.handleChangeDate })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'td',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: editAndRemove },
+							item.superpower
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: ipnutsTable },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'text', defaultValue: item.superpower, onChange: _this2.handleChangeSuperpower })
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'td',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: editAndRemove },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'button', value: 'Edit', onClick: _this2.handleClickEdit }),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'button', value: 'Remove', onClick: _this2.handleClickRemove })
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: ipnutsTable },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: index, type: 'button', value: 'Ok', onClick: _this2.handleClickOk })
+						)
+					)
+				);
+			});
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'tr',
-				null,
+				'section',
+				{ className: 'col-md-8' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', placeholder: 'Search', onChange: this.handleSearch }),
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
+					'table',
 					null,
-					this.state.name
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					this.state.surname
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					this.state.date
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					null,
-					this.state.superpower
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					{ className: this.state.EditAndRemoveOnOff },
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'button', value: 'Edit', onClick: this.handleClickEdit }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'button', value: this.props.data.id, onClick: this.handleClickRemove })
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'td',
-					{ className: this.state.OkOnOff },
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'button', value: 'Ok', onClick: this.handleClickOk })
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'thead',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'tr',
+							null,
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								{ className: this.state.n, onClick: this.handlerOnClickSortName },
+								'Name'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								{ className: this.state.s, onClick: this.handlerOnClickSortSurname },
+								'Surname'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								{ className: this.state.d, onClick: this.handlerOnClickSortDate },
+								'Birthday'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'th',
+								{ className: this.state.sp, onClick: this.handlerOnClickSortSuperpower },
+								'Superpower'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', null)
+						)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'tbody',
+						null,
+						rocketmanTemplate
+					)
 				)
 			);
 		}
@@ -22685,6 +22924,12 @@ var NewRow = function (_Component) {
 
 /***/ }),
 /* 186 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 187 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

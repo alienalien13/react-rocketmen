@@ -7,43 +7,67 @@ export default class NewRow extends Component{
 		super(props);
 		this.state = {
 			dataShow: props.data,
-			switchSortName: props.restart,
+			switchSortName: props.restart, 
 			switchSortSurname: props.restart,
 			switchSortDate: props.restart,
 			switchSortSuperpower: props.restart
 		}
 
+		//Click handlers
 		this.handleClickEdit = this.handleClickEdit.bind(this)
 		this.handleClickRemove = this.handleClickRemove.bind(this)
 		this.handleClickOk = this.handleClickOk.bind(this)
 
+		//Change handlers
 		this.handleChangeName = this.handleChangeName.bind(this)
 		this.handleChangeSurname = this.handleChangeSurname.bind(this)
 		this.handleChangeDate = this.handleChangeDate.bind(this)
 		this.handleChangeSuperpower = this.handleChangeSuperpower.bind(this)
 
+		//Serach handler
 		this.handleSearch = this.handleSearch.bind(this)
 
+		//Sort handlers
 		this.handlerOnClickSortName = this.handlerOnClickSortName.bind(this)
 		this.handlerOnClickSortSurname = this.handlerOnClickSortSurname.bind(this)
 		this.handlerOnClickSortDate = this.handlerOnClickSortDate.bind(this)
 		this.handlerOnClickSortSuperpower = this.handlerOnClickSortSuperpower.bind(this)
 		this.auxiliartMethod = this.auxiliartMethod.bind(this)
+
+		//Sort methods
+		this.idSorting = this.idSorting.bind(this)
+		this.nameSorting = this.nameSorting.bind(this)
+		this.surnameSorting = this.surnameSorting.bind(this)
+		this.dateSorting = this.dateSorting.bind(this)
+		this.superpowerSorting = this.superpowerSorting.bind(this)
+
+		//Edit display row elements while edit method
+		this.editationDisplayElements = this.editationDisplayElements.bind(this)
 	}
 
-	handleClickEdit(ev){
+
+	/* ===  ===  ===  ===  ===  === Click handlers ===  ===  ===  ===  ===  === */
+
+
+	editationDisplayElements(ev, elS, elH){ //Show or Hide table row elements while edit
 		var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
 			elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
 		for (let i in elemetsShow){
 			if (typeof(elemetsShow[i]) === 'object'){
-				elemetsShow[i].style.display = 'block'
+				elemetsShow[i].style.display = elS
 			}
 		}
 		for (let i in elementsHide){
 			if(typeof(elementsHide[i]) === 'object'){
-				elementsHide[i].style.display = 'none'
+				elementsHide[i].style.display = elH
 			}
 		}
+	}
+	handleClickEdit(ev){
+		this.editationDisplayElements(ev, 'block', 'none') //Show text inputs and Hide datas
+	}
+	handleClickOk(ev){
+		this.editationDisplayElements(ev, 'none', 'block') //Hide text inputs and Show datas
 	}
 	handleClickRemove(ev){
 		delete this.props.data[ev.target.id]
@@ -51,21 +75,10 @@ export default class NewRow extends Component{
 			dataShow: this.props.data
 		})
 	}
-	handleClickOk(ev){
-		var elemetsShow = document.getElementsByClassName('input row' + ev.target.id),
-			elementsHide = document.getElementsByClassName('edit-remove row' + ev.target.id);
-		for (let i in elemetsShow){
-			if (typeof(elemetsShow[i]) === 'object'){
-				elemetsShow[i].style.display = 'none'
-			}
-		}
-		for (let i in elementsHide){
-			if(typeof(elementsHide[i]) === 'object'){
-				elementsHide[i].style.display = 'block'
-			}
-		}
 
-	}
+	/* ===  ===  ===  ===  ===  === Changing datas ===  ===  ===  ===  ===  === */
+
+
 	handleChangeName(ev){
 		this.props.data[ev.target.id].name = ev.target.value
 		this.setState({
@@ -90,8 +103,13 @@ export default class NewRow extends Component{
 			dataShow: this.props.data
 		})
 	}
+
+
+	/* ===  ===  === ===  ===  ===  Search ===  ===  ===  ===  ===  === */
+
+
 	handleSearch(ev){
-		console.log(ev.target.value);
+		
 		this.setState({
 			dataShow: this.props.data.filter((el)=>{
 				return el.name.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1 ||
@@ -100,124 +118,198 @@ export default class NewRow extends Component{
 				el.superpower.toLowerCase().indexOf(ev.target.value.toLowerCase()) !== -1
 			})
 		})
+		
 	}
 
+
 	/* === ===  === === === ===  Sort === ===  === ===  === === */
-	auxiliartMethod(){
+
+	//if (1,-1) - sortind to increase ; if (-1,1) - sorting to reduce
+	idSorting(more, less){
+		console.log(this.props.data)
+		return this.state.dataShow.sort(function(el1, el2){
+			if (el1.id > el2.id) return more;
+			if (el1.id < el2.id) return less;
+		})
+	}
+	nameSorting(more, less){
+		return this.state.dataShow.sort(function(el1, el2){
+			if (el1.name.toLowerCase() > el2.name.toLowerCase()) return more;
+			if (el1.name.toLowerCase() < el2.name.toLowerCase()) return less;
+		})
+	}
+	surnameSorting(more, less){
+		return this.state.dataShow.sort(function(el1, el2){
+			if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return more;
+			if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return less;
+		})
+	}
+	dateSorting(more, less){
+		return this.state.dataShow.sort(function(el1, el2){
+			if (el1.date.toLowerCase() > el2.date.toLowerCase()) return more;
+			if (el1.date.toLowerCase() < el2.date.toLowerCase()) return less;
+		})
+	}
+	superpowerSorting(more, less){
+		return this.state.dataShow.sort(function(el1, el2){
+			if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return more;
+			if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return less;
+		})
+	}
+	auxiliartMethod(){//Reset render method
 		this.setState({
-			dataShow: this.state.dataShow.sort(function(el1, el2){
-				if (el1.id > el2.id) return 1;
-				if (el1.id < el2.id) return -1;
-			}),
+			dataShow: this.idSorting(1,-1),
 			switchSortName: 0,
 			switchSortSurname: 0,
 			switchSortDate: 0,
-			switchSortSuperpower: 0
+			switchSortSuperpower: 0,
+			n: '', //name table head className
+			s: '', //surname table head className
+			d: '', //date table head className
+			sp: '' //superpower table head className
 		})
 	}
 	
-	handlerOnClickSortName(){
+	handlerOnClickSortName(ev){
 		this.state.switchSortName++
 
 		switch (this.state.switchSortName){
 			case 1:
-			this.setState({
-				dataShow: this.state.dataShow.sort(function(el1, el2){
-					if (el1.name.toLowerCase() > el2.name.toLowerCase()) return 1;
-					if (el1.name.toLowerCase() < el2.name.toLowerCase()) return -1;
-				})
-			});
-			break;
-			case 2:
-			this.setState({
-				dataShow: this.state.dataShow.sort(function(el1, el2){
-					if (el1.name.toLowerCase() > el2.name.toLowerCase()) return -1;
-					if (el1.name.toLowerCase() < el2.name.toLowerCase()) return 1;
-				})
-			});
-			break;
-			case 3:
-			this.auxiliartMethod();
-			break;
-		}
-	}
-	handlerOnClickSortSurname(){
-		this.state.switchSortSurname++
-		console.log(this.state.switchSortSurname)
-		switch (this.state.switchSortSurname){
-			case 1:
-			this.setState({
-				dataShow: this.state.dataShow.sort(function(el1, el2){
-					if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return 1;
-					if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return -1;
-				})
-			});
-			break;
-			case 2:
-			this.setState({
-				dataShow: this.state.dataShow.sort(function(el1, el2){
-					if (el1.surname.toLowerCase() > el2.surname.toLowerCase()) return -1;
-					if (el1.surname.toLowerCase() < el2.surname.toLowerCase()) return 1;
-				})
-			});
-			break;
-			case 3:
-			this.auxiliartMethod();
-			break;
-		}
-	}
-	handlerOnClickSortDate(ev){
-		this.state.switchSortDate++
-
-		switch (this.state.switchSortDate){
-			case 1: 
-				ev.target.className = 'fa fa-angle-double-down'
 				this.setState({
-					dataShow: this.state.dataShow.sort(function(el1, el2){
-						if (el1.date > el2.date) return 1;
-						if (el1.date < el2.date) return -1;
-					})
+					dataShow: this.nameSorting(1,-1),
+					n: 'fa fa-angle-double-down',
+					s: '',
+					d: '',
+					sp: '',
+					switchSortSurname: 0,
+					switchSortDate: 0,
+					switchSortSuperpower: 0
 				});
 				break;
-			case 2: 
-				ev.target.className = 'fa fa-angle-double-up'
+			case 2:
 				this.setState({
-					dataShow: this.state.dataShow.sort(function(el1, el2){
-						if (el1.date > el2.date) return -1;
-						if (el1.date < el2.date) return 1;
-					})
+					dataShow: this.nameSorting(-1,1),
+					n: 'fa fa-angle-double-up',
+					s: '',
+					d: '',
+					sp: '',
+					switchSortSurname: 0,
+					switchSortDate: 0,
+					switchSortSuperpower: 0
 				});
 				break;
 			case 3:
-				ev.target.className = ''
 				this.auxiliartMethod();
 				break;
 		}
 	}
-	handlerOnClickSortSuperpower(){
-		this.state.switchSortSuperpower++
-		console.log(this.state.switchSortSuperpower)
-		switch (this.state.switchSortSuperpower){
-			case 1: this.setState({
-				dataShow: this.state.dataShow.sort(function(el1, el2){
-					if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return 1;
-					if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return -1;
-				})
-			});
-			break;
-			case 2: this.setState({
-				dataShow: this.state.dataShow.sort(function(el1, el2){
-					if (el1.superpower.toLowerCase() > el2.superpower.toLowerCase()) return -1;
-					if (el1.superpower.toLowerCase() < el2.superpower.toLowerCase()) return 1;
-				})
-			});
-			break;
-			case 3: this.auxiliartMethod();
-			break;
+
+	handlerOnClickSortSurname(ev){
+		this.state.switchSortSurname++
+
+		switch (this.state.switchSortSurname){
+			case 1:
+				this.setState({
+					dataShow: this.surnameSorting(1,-1),
+					n: '',
+					s: 'fa fa-angle-double-down',
+					d: '',
+					sp: '',
+					switchSortName: 0,
+					switchSortDate: 0,
+					switchSortSuperpower: 0
+				});
+				break;
+			case 2:
+				this.setState({
+					dataShow: this.surnameSorting(-1,1),
+					n: '',
+					s: 'fa fa-angle-double-up',
+					d: '',
+					sp: '',
+					switchSortName: 0,
+					switchSortDate: 0,
+					switchSortSuperpower: 0
+				});
+				break;
+			case 3:
+				this.auxiliartMethod();
+				break;
 		}
 	}
 
+	handlerOnClickSortDate(ev){
+		this.state.switchSortDate++
+
+		switch (this.state.switchSortDate){
+			case 1:
+				this.setState({
+					dataShow: this.dateSorting(1,-1),
+					n: '',
+					s: '',
+					d: 'fa fa-angle-double-down',
+					sp: '',
+					switchSortName: 0,
+					switchSortSurname: 0,
+					switchSortSuperpower: 0
+				});
+				break;
+			case 2:
+				this.setState({
+					dataShow: this.dateSorting(-1,1),
+					n: '',
+					s: '',
+					d: 'fa fa-angle-double-up',
+					sp: '',
+					switchSortName: 0,
+					switchSortSurname: 0,
+					switchSortSuperpower: 0
+				});
+				break;
+			case 3:
+				this.auxiliartMethod();
+				break;
+		}
+	}
+
+	handlerOnClickSortSuperpower(ev){
+		this.state.switchSortSuperpower++
+		
+		switch (this.state.switchSortSuperpower){
+			case 1:
+				this.setState({
+					dataShow: this.superpowerSorting(1,-1),
+					n: '',
+					s: '',
+					d: '',
+					sp: 'fa fa-angle-double-down',
+					switchSortName: 0,
+					switchSortSurname: 0,
+					switchSortDate: 0
+				});
+				break;
+			case 2:
+				this.setState({
+					dataShow: this.superpowerSorting(-1,1),
+					n: '',
+					s: '',
+					d: '',
+					sp: 'fa fa-angle-double-up',
+					switchSortName: 0,
+					switchSortSurname: 0,
+					switchSortDate: 0
+				});
+				break;
+			case 3:
+				this.auxiliartMethod();
+				break;
+		}
+	}
+
+
 	/*  === ===  === ===  === === React necessary methods  === ===  === ===  === ===  */
+
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({
 			dataShow: nextProps.data,
@@ -232,7 +324,10 @@ export default class NewRow extends Component{
 		return true
 	}
 
+
 	/*  === ===  === ===  === === Render  === ===  === ===  === ===  === ===  */
+
+	
 	render(){
 		
 		var rocketmanTemplate = this.state.dataShow.map((item, index)=>{
@@ -274,7 +369,7 @@ export default class NewRow extends Component{
 				</tr>
 			)
 		})
-		return <section>
+		return <section className='col-md-8'>
 
 			<input type='text' placeholder='Search' onChange={this.handleSearch}/>
 
@@ -282,10 +377,10 @@ export default class NewRow extends Component{
 
 				<thead>
 					<tr>
-						<th onClick={this.handlerOnClickSortName}>Name</th>
-						<th onClick={this.handlerOnClickSortSurname}>Surname</th>
-						<th onClick={this.handlerOnClickSortDate}>Birthday</th>
-						<th onClick={this.handlerOnClickSortSuperpower}>Superpower</th>
+						<th className={this.state.n} onClick={this.handlerOnClickSortName}>Name</th>
+						<th className={this.state.s} onClick={this.handlerOnClickSortSurname}>Surname</th>
+						<th className={this.state.d} onClick={this.handlerOnClickSortDate}>Birthday</th>
+						<th className={this.state.sp} onClick={this.handlerOnClickSortSuperpower}>Superpower</th>
 						<th></th>
 					</tr>
 				</thead>

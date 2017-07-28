@@ -5,24 +5,31 @@ import NewRow from './NewRow.jsx'
 var rocketmenArr = [
 	{
 		id: 0,
-		name: 'Yura',
+		name: 'Yuri',
 		surname: 'Gagarin',
-		date: '1934-11-11',
-		superpower: 'First'
+		date: '1934-03-09',
+		superpower: 'He was the first human to journey into outer space'
 	},
 	{
 		id: 1,
-		name: 'Momo',
-		surname: 'OmOm',
-		date: '1906-06-06',
-		superpower: 'Second'
+		name: 'Alan',
+		surname: 'Shepard',
+		date: '1923-11-18',
+		superpower: 'He became the second person, and the first American, to travel into space, and the first person to manually control the orientation of his spacecraft'
 	},
 	{
 		id: 2,
-		name: 'Papa',
-		surname: 'ApAp',
-		date: '1903-03-03',
-		superpower: 'Third'
+		name: 'Neil',
+		surname: 'Armstrong',
+		date: '1930-08-05',
+		superpower: "Armstrong's second and last spaceflight was as commander of Apollo 11, the first manned Moon landing mission in July 1969"
+	},
+	{
+		id: 3,
+		name: 'Vladimír',
+		surname: 'Remek',
+		date: '1948-09-26',
+		superpower: 'Remek is considered to be the first astronaut from the European Union'
 	}
 ]
 
@@ -44,6 +51,14 @@ export default class App extends Component{
 		this.handleOnchangeDate = this.handleOnchangeDate.bind(this);
 		this.handleOnchangeSuperpower = this.handleOnchangeSuperpower.bind(this);
 		this.handleClickAddRocketman = this.handleClickAddRocketman.bind(this);
+		this.resetArray = this.resetArray.bind(this);
+	}
+
+	resetArray(){				
+		return rocketmenArr.sort(function(el1, el2){
+			if (el1.id > el2.id) return 1;
+			if (el1.id < el2.id) return -1;
+		})
 	}
 
 	handleOnchangeName(ev){
@@ -72,37 +87,40 @@ export default class App extends Component{
 
 	handleClickAddRocketman(){
 
-		rocketmenArr.push({
-			id: (rocketmenArr.length),
-			name: this.state.inputName,
-			surname: this.state.inputSurname,
-			date: this.state.inputDate,
-			superpower: this.state.inputSuperpower
-		})
+		if(this.state.inputName !== '' && this.state.inputSurname !== '' && this.state.inputDate !== '' && this.state.inputSuperpower !== ''){
 
-		console.log(rocketmenArr)
+			rocketmenArr.push({
+				id: (rocketmenArr.length),
+				name: this.state.inputName,
+				surname: this.state.inputSurname,
+				date: this.state.inputDate,
+				superpower: this.state.inputSuperpower
+			})
 
-		this.setState({
-			rocketmenDisplay: rocketmenArr.sort(function(el1, el2){
-				if (el1.id > el2.id) return 1;
-				if (el1.id < el2.id) return -1;
-			}),
-			restartSort: 0
-		})
+			this.setState({
+				rocketmenDisplay: this.resetArray(),
+				restartSort: 0,
+				inputName: '',
+				inputSurname: '',
+				inputDate: '',
+				inputSuperpower: '',
+			})
+
+		}
 
 	}
 
 	render(){
 
 		return (
-			<section>
+			<section className='row justify-content-center'>
 				
-				<form>
-					<input type='text' className='input-form input-name input-ok' onChange={this.handleOnchangeName}/>
-					<input type='text' className='input-form input-surname input-ok' onChange={this.handleOnchangeSurname}/>
-					<input type='date' className='input-form input-date input-ok' onChange={this.handleOnchangeDate}/>
-					<input type='text' className='input-form input-superpower input-ok' onChange={this.handleOnchangeSuperpower}/>
-					<input type='button' value='Add Rocketman' className='input-form input-name input-ok' onClick={this.handleClickAddRocketman}/>
+				<form className='col-md-3'>
+					<input type='text' placeholder='Name' value={this.state.inputName} className='input-form input-name input-ok' onChange={this.handleOnchangeName}/>
+					<input type='text' placeholder='Surname' value={this.state.inputSurname} className='input-form input-surname input-ok' onChange={this.handleOnchangeSurname}/>
+					<input type='date' placeholder='Birthday' value={this.state.inputDate} className='input-form input-date input-ok' onChange={this.handleOnchangeDate}/>
+					<input type='text' placeholder='Superpower' value={this.state.inputSuperpower} className='input-form input-superpower input-ok' onChange={this.handleOnchangeSuperpower}/>
+					<input type='button' value='Add Rocketman' className='input-form input-ok' onClick={this.handleClickAddRocketman}/>
 				</form>
 
 				<NewRow data={rocketmenArr} restart={this.state.restartSort}/>
