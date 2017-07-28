@@ -116,7 +116,7 @@ export default class App extends Component{
 			<section className='row justify-content-center'>
 				
 				<form className='col-md-3'>
-					<input type='text' placeholder='Name' value={this.state.inputName} className='input-form input-name input-ok' onChange={this.handleOnchangeName}/>
+					<input type='text' placeholder='Name' value={this.state.inputName} className='input-form input-name input-ok' onChange={this.handleOnchangeName} autoFocus/>
 					<input type='text' placeholder='Surname' value={this.state.inputSurname} className='input-form input-surname input-ok' onChange={this.handleOnchangeSurname}/>
 					<input type='date' placeholder='Birthday' value={this.state.inputDate} className='input-form input-date input-ok' onChange={this.handleOnchangeDate}/>
 					<input type='text' placeholder='Superpower' value={this.state.inputSuperpower} className='input-form input-superpower input-ok' onChange={this.handleOnchangeSuperpower}/>

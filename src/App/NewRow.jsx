@@ -371,7 +371,7 @@ export default class NewRow extends Component{
 		})
 		return <section className='col-md-8'>
 
-			<input type='text' placeholder='Search' onChange={this.handleSearch}/>
+			<input type='search' placeholder='Search' onChange={this.handleSearch}/>
 
 			<table>
 
