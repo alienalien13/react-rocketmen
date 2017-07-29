@@ -1,3 +1,33 @@
+$prima-color: #d1ddfc
+
+/* --- reset for table inputs --- */
+.on
+	display: block
+.off
+	display: none
+.input
+	display: none
+
+/* --- styles --- */
+header
+	height: 150px
+	background-color: $prima-color
+	margin-bottom: 30px
+	padding: 2rem 0
+input, table, textarea
+	width: 100%
+td
+	padding: 2px
+td:nth-child(3)
+	min-width: 110px
+tr
+	border-bottom: 1px solid $prima-color
+form
+	margin-bottom: 30px
+th:hover
+	cursor: pointer
+
+/* --- input styles --- */
 input[type="date"], input[type="search"], textarea
 	-webkit-appearance: textfield
     background-color: white
@@ -9,36 +39,22 @@ input[type="date"], input[type="search"], textarea
     border-style: inset
     border-color: initial
     border-image: initial
-.on
-	display: block
-.off
-	display: none
-.input
-	display: none
-
-header
-	height: 150px
-	background-color: #d1ddfc
-	margin-bottom: 30px
-	padding: 2rem 0
-
-input, table, textarea
-	width: 100%
-
-td
-	padding: 2px
-td:nth-child(3)
-	min-width: 110px
-tr
-	border-bottom: 1px solid #d1ddfc
-form
-	margin-bottom: 30px
-th:hover
-	cursor: pointer
-.input-form
+.input-form, input[type="search"]
 	margin-bottom: 10px
-.edit-remove input
+.edit-remove input, .ok input
 	opacity: .5
 	transition: opacity .5s
 .edit-remove input:hover
 	opacity: 1
+.input-superpower
+	margin: 0px !important
+	padding: 0px !important
+.input-ok
+	margin-top: 10px
+	background-color: $prima-color
+	border-color: #afc4fa
+	color: black
+textarea::placeholder
+	padding: 10px
+.btn-remove
+	color: #f0646f

@@ -171,30 +171,25 @@ export default class NewRow extends Component{
 	
 	handlerOnClickSortName(ev){
 		this.state.switchSortName++
-
+		this.setState({
+			s: '',
+			d: '',
+			sp: '',
+			switchSortSurname: 0,
+			switchSortDate: 0,
+			switchSortSuperpower: 0
+		});
 		switch (this.state.switchSortName){
 			case 1:
 				this.setState({
 					dataShow: this.nameSorting(1,-1),
-					n: 'fa fa-angle-double-down',
-					s: '',
-					d: '',
-					sp: '',
-					switchSortSurname: 0,
-					switchSortDate: 0,
-					switchSortSuperpower: 0
+					n: 'fa fa-angle-double-down'
 				});
 				break;
 			case 2:
 				this.setState({
 					dataShow: this.nameSorting(-1,1),
-					n: 'fa fa-angle-double-up',
-					s: '',
-					d: '',
-					sp: '',
-					switchSortSurname: 0,
-					switchSortDate: 0,
-					switchSortSuperpower: 0
+					n: 'fa fa-angle-double-up'
 				});
 				break;
 			case 3:
@@ -205,30 +200,25 @@ export default class NewRow extends Component{
 
 	handlerOnClickSortSurname(ev){
 		this.state.switchSortSurname++
-
+		this.setState({
+			n: '',
+			d: '',
+			sp: '',
+			switchSortName: 0,
+			switchSortDate: 0,
+			switchSortSuperpower: 0
+		});
 		switch (this.state.switchSortSurname){
 			case 1:
 				this.setState({
 					dataShow: this.surnameSorting(1,-1),
-					n: '',
-					s: 'fa fa-angle-double-down',
-					d: '',
-					sp: '',
-					switchSortName: 0,
-					switchSortDate: 0,
-					switchSortSuperpower: 0
+					s: 'fa fa-angle-double-down'
 				});
 				break;
 			case 2:
 				this.setState({
 					dataShow: this.surnameSorting(-1,1),
-					n: '',
-					s: 'fa fa-angle-double-up',
-					d: '',
-					sp: '',
-					switchSortName: 0,
-					switchSortDate: 0,
-					switchSortSuperpower: 0
+					s: 'fa fa-angle-double-up'
 				});
 				break;
 			case 3:
@@ -239,30 +229,25 @@ export default class NewRow extends Component{
 
 	handlerOnClickSortDate(ev){
 		this.state.switchSortDate++
-
+		this.setState({
+			n: '',
+			s: '',
+			sp: '',
+			switchSortName: 0,
+			switchSortSurname: 0,
+			switchSortSuperpower: 0
+		});
 		switch (this.state.switchSortDate){
 			case 1:
 				this.setState({
 					dataShow: this.dateSorting(1,-1),
-					n: '',
-					s: '',
-					d: 'fa fa-angle-double-down',
-					sp: '',
-					switchSortName: 0,
-					switchSortSurname: 0,
-					switchSortSuperpower: 0
+					d: 'fa fa-angle-double-down'
 				});
 				break;
 			case 2:
 				this.setState({
 					dataShow: this.dateSorting(-1,1),
-					n: '',
-					s: '',
-					d: 'fa fa-angle-double-up',
-					sp: '',
-					switchSortName: 0,
-					switchSortSurname: 0,
-					switchSortSuperpower: 0
+					d: 'fa fa-angle-double-up'
 				});
 				break;
 			case 3:
@@ -273,30 +258,25 @@ export default class NewRow extends Component{
 
 	handlerOnClickSortSuperpower(ev){
 		this.state.switchSortSuperpower++
-		
+		this.setState({
+			n: '',
+			s: '',
+			d: '',
+			switchSortName: 0,
+			switchSortSurname: 0,
+			switchSortDate: 0
+		});
 		switch (this.state.switchSortSuperpower){
 			case 1:
 				this.setState({
 					dataShow: this.superpowerSorting(1,-1),
-					n: '',
-					s: '',
-					d: '',
-					sp: 'fa fa-angle-double-down',
-					switchSortName: 0,
-					switchSortSurname: 0,
-					switchSortDate: 0
+					sp: 'fa fa-angle-double-down'
 				});
 				break;
 			case 2:
 				this.setState({
 					dataShow: this.superpowerSorting(-1,1),
-					n: '',
-					s: '',
-					d: '',
-					sp: 'fa fa-angle-double-up',
-					switchSortName: 0,
-					switchSortSurname: 0,
-					switchSortDate: 0
+					sp: 'fa fa-angle-double-up'
 				});
 				break;
 			case 3:
@@ -310,18 +290,24 @@ export default class NewRow extends Component{
 
 
 	componentWillReceiveProps(nextProps) {
+		this.auxiliartMethod()
 		this.setState({
-			dataShow: nextProps.data,
-			switchSortName: nextProps.restart,
-			switchSortSurname: nextProps.restart,
-			switchSortDate: nextProps.restart,
-			switchSortSuperpower: nextProps.restart
+			dataShow: nextProps.data.sort(function(el1, el2){
+				if (el1.id > el2.id) return 1;
+				if (el1.id < el2.id) return -1;
+			})
 		})
 	}
 
- 	shouldComponentUpdate(nextProps, nextState){
+ 	/* shouldComponentUpdate(nextProps, nextState){
 		return true
 	}
+	componentWillMount(){
+		this.auxiliartMethod()
+	}
+	componentDidMount(){
+		this.auxiliartMethod()
+	} */
 
 
 	/*  === ===  === ===  === === Render  === ===  === ===  === ===  === ===  */
@@ -337,31 +323,31 @@ export default class NewRow extends Component{
 
 					<td>
 						<div className={editAndRemove}>{item.name}</div>
-						<div className={ipnutsTable}><input id={index} type='text' defaultValue={item.name} onChange={this.handleChangeName}/></div>
+						<div className={ipnutsTable}><input id={index} className='form-control' type='text' defaultValue={item.name} onChange={this.handleChangeName}/></div>
 					</td>
 
 					<td>
 						<div className={editAndRemove}>{item.surname}</div>
-						<div className={ipnutsTable}><input id={index}  type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/></div>
+						<div className={ipnutsTable}><input id={index} className='form-control' type='text' defaultValue={item.surname} onChange={this.handleChangeSurname}/></div>
 					</td>
 
 					<td>
 						<div className={editAndRemove}>{item.date}</div>
-						<div className={ipnutsTable}><input id={index}  type='date' defaultValue={item.date} onChange={this.handleChangeDate}/></div>
+						<div className={ipnutsTable}><input id={index} className='form-control' type='date' defaultValue={item.date} onChange={this.handleChangeDate}/></div>
 					</td>
 
 					<td>
 						<div className={editAndRemove}>{item.superpower}</div>
-						<div className={ipnutsTable}><textarea id={index}  type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/></div>
+						<div className={ipnutsTable}><textarea className='form-control' id={index}  type='text' defaultValue={item.superpower} onChange={this.handleChangeSuperpower}/></div>
 					</td>
 
 					<td>
 						<div className={editAndRemove}>
-							<input id={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
-							<input id={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
+							<input className='btn btn-link' id={index} type='button' value='Edit' onClick={this.handleClickEdit}/>
+							<input className='btn btn-link btn-remove' id={index} type='button' value='Remove' onClick={this.handleClickRemove}/>
 						</div>
 						<div className={ipnutsTable}>
-							<input id={index} type='button' value='Ok' onClick={this.handleClickOk}/>
+							<input className='btn btn-link' id={index} type='button' value='Ok' onClick={this.handleClickOk}/>
 						</div>
 					</td>
 
@@ -370,7 +356,7 @@ export default class NewRow extends Component{
 		})
 		return <section className='col-md-8'>
 
-			<input type='search' placeholder='Search' onChange={this.handleSearch}/>
+			<input type='search' className='form-control' placeholder='Search' onChange={this.handleSearch}/>
 
 			<table>
 

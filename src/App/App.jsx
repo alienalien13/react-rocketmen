@@ -115,12 +115,12 @@ export default class App extends Component{
 		return (
 			<section className='row justify-content-center'>
 				
-				<form className='col-md-3'>
-					<input type='text' placeholder='Name' value={this.state.inputName} className='input-form input-name input-ok' onChange={this.handleOnchangeName} autoFocus/>
-					<input type='text' placeholder='Surname' value={this.state.inputSurname} className='input-form input-surname input-ok' onChange={this.handleOnchangeSurname}/>
-					<input type='date' placeholder='Birthday' value={this.state.inputDate} className='input-form input-date input-ok' onChange={this.handleOnchangeDate}/>
-					<textarea type='text' placeholder='Superpower' value={this.state.inputSuperpower} className='input-form input-superpower input-ok' onChange={this.handleOnchangeSuperpower}/>
-					<input type='button' value='Add Rocketman' className='input-form input-ok' onClick={this.handleClickAddRocketman}/>
+				<form className='col-md-3 form-group'>
+					<input type='text' placeholder='Name' value={this.state.inputName} className='input-form input-name form-control' onChange={this.handleOnchangeName} autoFocus/>
+					<input type='text' placeholder='Surname' value={this.state.inputSurname} className='input-form input-surname form-control' onChange={this.handleOnchangeSurname}/>
+					<input type='date' placeholder='Birthday' value={this.state.inputDate} className='input-form input-date form-control' onChange={this.handleOnchangeDate}/>
+					<textarea placeholder='Superpower' value={this.state.inputSuperpower} className='input-form input-superpower form-control' onChange={this.handleOnchangeSuperpower}/>
+					<input type='button' value='Add Rocketman' className='input-form input-ok btn btn-success' onClick={this.handleClickAddRocketman}/>
 				</form>
 
 				<NewRow data={rocketmenArr} restart={this.state.restartSort}/>
