@@ -123,10 +123,9 @@ export default class NewRow extends Component{
 
 
 	/* === ===  === === === ===  Sort === ===  === ===  === === */
-
-	//if (1,-1) - sortind to increase ; if (-1,1) - sorting to reduce
+	
+	//if (1,-1) - to sort the records in ascending order ; if (-1,1) - to sort the records in descending order
 	idSorting(more, less){
-		console.log(this.props.data)
 		return this.state.dataShow.sort(function(el1, el2){
 			if (el1.id > el2.id) return more;
 			if (el1.id < el2.id) return less;
